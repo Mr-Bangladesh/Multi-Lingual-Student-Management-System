@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Student_Management_System.ViewModels.StudentViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    int currentLanguageId = _currentDefaultService.GetCurrentLanguageId();
+    var localResources = await _localResourceService.GetLocalResourceByLanguageAsync(currentLanguageId);
+}
+
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @{
+                    var nameData = localResources.Where(x => x.ResourceName == "Name").FirstOrDefault();
+                    if(nameData == null)
+                    {
+                        @Html.DisplayNameFor(model => model.Name)
+                    }
+                    else {
+                        @nameData.Value
+                    }
+                }
+                
+            </th>
+            <th>
+                @{
+                    var rollData = localResources.Where(x => x.ResourceName == "Roll").FirstOrDefault();
+                    if(rollData == null)
+                    {
+                        @Html.DisplayNameFor(model => model.Roll)
+                    }
+                    else {
+                        @rollData.Value
+                    }
+                }
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Roll)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

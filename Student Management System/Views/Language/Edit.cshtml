@@ -1,0 +1,81 @@
+﻿@model Student_Management_System.ViewModels.LanguageViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>LanguageModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@{
+    var localResources = ViewBag.localResource;
+}
+
+<hr />
+<h3>Local Resources</h3>
+<p>
+    <a asp-controller="LocalResource" asp-action="Create" asp-route-id="@Model.Id">Create New</a>
+</p>
+
+@{
+    if(localResources.Count > 0)
+    {
+        <table class="table">
+        <thead>
+                <tr>
+                    <th>Resource Name</th>
+                    <th>Value</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach(var item in localResources) {
+                <tbody>
+                <tr>
+                    <td>
+                        @item.ResourceName
+                    </td>
+                    <td>
+                        @item.Value
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            }
+        </table>
+    }
+    else
+    {
+        <h4>No entry!</h4>
+    }
+}
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

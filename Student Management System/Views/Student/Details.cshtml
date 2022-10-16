@@ -1,0 +1,94 @@
+﻿@model Student_Management_System.ViewModels.StudentViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>StudentModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Roll)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Roll)
+        </dd>
+        @{
+            if (Model.LocalizedProperties.Any())
+            {
+                foreach (var property in Model.LocalizedProperties)
+                {
+                    <dt class = "col-sm-2">
+                        @property.EntityPropertyName (@property.Language)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @property.LocalValue
+                    </dd>
+                }
+            }
+        }
+    </dl>
+</div>
+<p>
+    <a asp-action="EnrollCourse" asp-route-id="@Model.Id">Manage Enrolled Course</a>
+</p>
+@{
+    if(Model.EnrolledCourses.Any())
+    {
+        <h3>Enrolled Courses</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Course Title
+                    </th>
+                    <th>
+                        Course Code
+                    </th>
+                    <th>
+                        Course Teacher
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var item in Model.EnrolledCourses) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseTeacher)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3>No Courses Enrolled</h3>
+    }
+}
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

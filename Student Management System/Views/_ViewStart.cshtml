@@ -1,0 +1,8 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@{
+    int currentLanguageId = _currentDefaultService.GetCurrentLanguageId();
+    await _localResourceService.LoadLocalResourceAsync(currentLanguageId);
+}
